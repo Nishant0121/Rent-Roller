@@ -109,7 +109,8 @@ class AddNewVehicle extends JFrame implements ActionListener {
     public void actionPerformed(ActionEvent e) {
         if (e.getSource() == cancelButton) {
             JOptionPane.showMessageDialog(this, "Action Cancelled");
-            System.exit(0); // Close the window on cancel
+            dispose();
+            new MainMenu(); // Close the window on cancel
         } else if (e.getSource() == addVehicleButton) {
             // Here you can handle the logic for adding a vehicle
             JOptionPane.showMessageDialog(this, "Vehicle added successfully!");

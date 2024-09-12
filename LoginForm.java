@@ -1,7 +1,7 @@
-import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import javax.swing.*;
 
 class LoginForm extends JFrame implements ActionListener {
 
@@ -12,8 +12,8 @@ class LoginForm extends JFrame implements ActionListener {
     JButton loginButton;
 
     LoginForm() {
-        // Set up the frame
-        JFrame f = new JFrame("Rent Roller Vehicle Rental Service");
+        // Set up the frame (no need to create a new JFrame, just use 'this')
+        setTitle("Rent Roller Vehicle Rental Service");
 
         // Title Label
         l1 = new JLabel("Rent Roller Vehicle Rental Service");
@@ -45,18 +45,18 @@ class LoginForm extends JFrame implements ActionListener {
         loginButton.addActionListener(this);
 
         // Add components to frame
-        f.add(l1);
-        f.add(l2);
-        f.add(tx1);
-        f.add(l3);
-        f.add(tx2);
-        f.add(loginButton);
+        add(l1);
+        add(l2);
+        add(tx1);
+        add(l3);
+        add(tx2);
+        add(loginButton);
 
         // Frame settings
-        f.setSize(400, 300);
-        f.setLayout(null);
-        f.setVisible(true);
-        f.setDefaultCloseOperation(EXIT_ON_CLOSE);
+        setSize(400, 300);
+        setLayout(null);
+        setVisible(true);
+        setDefaultCloseOperation(EXIT_ON_CLOSE);
     }
 
     // Action listener to handle button click
@@ -69,6 +69,12 @@ class LoginForm extends JFrame implements ActionListener {
             JOptionPane.showMessageDialog(this, "Please enter valid credentials");
         } else {
             JOptionPane.showMessageDialog(this, "Login Successful!");
+
+            // Close the current login window
+            dispose();
+
+            // Open the MainMenu
+            new MainMenu();
         }
     }
 

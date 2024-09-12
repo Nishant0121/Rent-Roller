@@ -11,7 +11,7 @@ class MainMenu extends JFrame implements ActionListener {
 
     MainMenu() {
         // Set up the frame
-        JFrame f = new JFrame("Rent Roller Vehicle Rental Service");
+        setTitle("Rent Roller Vehicle Rental Service");
 
         // Title Label
         JLabel title = new JLabel("Rent Roller Vehicle Rental Service");
@@ -23,7 +23,7 @@ class MainMenu extends JFrame implements ActionListener {
         btnRentVehicle = new JButton("Rent A Vehicle");
         btnAddVehicle = new JButton("Add New Vehicle");
         btnUpdateDetails = new JButton("Update Details");
-        btnViewAllVehicle = new JButton("View All Vehicle");
+        btnViewAllVehicle = new JButton("View All Vehicles");
         btnAddCustomers = new JButton("Add Customers");
         btnViewRentedVehicles = new JButton("View Rented Vehicles");
         btnReturnVehicle = new JButton("Return Vehicle");
@@ -61,32 +61,75 @@ class MainMenu extends JFrame implements ActionListener {
         btnLogout.addActionListener(this);
 
         // Add components to frame
-        f.add(title);
-        f.add(btnRentVehicle);
-        f.add(btnAddVehicle);
-        f.add(btnUpdateDetails);
-        f.add(btnViewAllVehicle);
-        f.add(btnAddCustomers);
-        f.add(btnViewRentedVehicles);
-        f.add(btnReturnVehicle);
-        f.add(btnLogout);
+        add(title);
+        add(btnRentVehicle);
+        add(btnAddVehicle);
+        add(btnUpdateDetails);
+        add(btnViewAllVehicle);
+        add(btnAddCustomers);
+        add(btnViewRentedVehicles);
+        add(btnReturnVehicle);
+        add(btnLogout);
 
         // Frame settings
-        f.setSize(450, 500);
-        f.setLayout(null);
-        f.setVisible(true);
-        f.setDefaultCloseOperation(EXIT_ON_CLOSE);
+        setSize(450, 500);
+        setLayout(null);
+        setVisible(true);
+        setDefaultCloseOperation(EXIT_ON_CLOSE);
     }
 
     // Action listener for button events
     public void actionPerformed(ActionEvent e) {
         String command = e.getActionCommand();
 
-        if (command.equals("Logout")) {
-            JOptionPane.showMessageDialog(this, "Logged out successfully!");
-            System.exit(0);
-        } else {
-            JOptionPane.showMessageDialog(this, command + " button clicked.");
+        // Perform specific actions based on button clicked
+        switch (command) {
+            case "Rent A Vehicle":
+                JOptionPane.showMessageDialog(this, "Navigating to Rent A Vehicle screen...");
+                // Add your logic here for renting a vehicle
+                break;
+
+            case "Add New Vehicle":
+                JOptionPane.showMessageDialog(this, "Navigating to Add New Vehicle screen...");
+                dispose();
+                new AddNewVehicle();
+                break;
+
+            case "Update Details":
+                JOptionPane.showMessageDialog(this, "Navigating to Update Details screen...");
+                dispose();
+                new UpdateVehicle();
+                break;
+
+            case "View All Vehicles":
+                JOptionPane.showMessageDialog(this, "Displaying all available vehicles...");
+                // Add your logic here to show a list of all vehicles
+                break;
+
+            case "Add Customers":
+                JOptionPane.showMessageDialog(this, "Navigating to Add Customers screen...");
+                // Add your logic here for adding a customer
+                break;
+
+            case "View Rented Vehicles":
+                JOptionPane.showMessageDialog(this, "Displaying all rented vehicles...");
+                // Add your logic here to show a list of all rented vehicles
+                break;
+
+            case "Return Vehicle":
+                JOptionPane.showMessageDialog(this, "Navigating to Return Vehicle screen...");
+                // Add your logic here for returning a rented vehicle
+                break;
+
+            case "Logout":
+                JOptionPane.showMessageDialog(this, "Logging out...");
+                dispose();
+                new LoginForm(); // Open the login form again
+                break;
+
+            default:
+                JOptionPane.showMessageDialog(this, "Unknown command: " + command);
+                break;
         }
     }
 

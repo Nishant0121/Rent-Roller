@@ -11,7 +11,7 @@ class UpdateVehicle extends JFrame implements ActionListener {
 
     UpdateVehicle() {
         // Set up the frame
-        JFrame f = new JFrame("Add New Vehicle - Rent Roller Vehicle Rental Service");
+        setTitle("Add New Vehicle - Rent Roller Vehicle Rental Service");
 
         // Title Label
         JLabel title = new JLabel("Rent Roller Vehicle Rental Service");
@@ -77,39 +77,40 @@ class UpdateVehicle extends JFrame implements ActionListener {
         cancelButton.addActionListener(this);
 
         // Add components to the frame
-        f.add(title);
-        f.add(subtitle);
-        f.add(regNumberLabel);
-        f.add(regNumberField);
-        f.add(seatsLabel);
-        f.add(seatsField);
-        f.add(typeLabel);
-        f.add(typeField);
-        f.add(colorLabel);
-        f.add(colorField);
-        f.add(modelNumberLabel);
-        f.add(modelNumberField);
-        f.add(brandLabel);
-        f.add(brandField);
-        f.add(rentLabel);
-        f.add(rentField);
-        f.add(depositLabel);
-        f.add(depositField);
-        f.add(addVehicleButton);
-        f.add(cancelButton);
+        add(title);
+        add(subtitle);
+        add(regNumberLabel);
+        add(regNumberField);
+        add(seatsLabel);
+        add(seatsField);
+        add(typeLabel);
+        add(typeField);
+        add(colorLabel);
+        add(colorField);
+        add(modelNumberLabel);
+        add(modelNumberField);
+        add(brandLabel);
+        add(brandField);
+        add(rentLabel);
+        add(rentField);
+        add(depositLabel);
+        add(depositField);
+        add(addVehicleButton);
+        add(cancelButton);
 
         // Frame settings
-        f.setSize(650, 400);
-        f.setLayout(null);
-        f.setVisible(true);
-        f.setDefaultCloseOperation(EXIT_ON_CLOSE);
+        setSize(650, 400);
+        setLayout(null);
+        setVisible(true);
+        setDefaultCloseOperation(EXIT_ON_CLOSE);
     }
 
     // Action listener for button events
     public void actionPerformed(ActionEvent e) {
         if (e.getSource() == cancelButton) {
             JOptionPane.showMessageDialog(this, "Action Cancelled");
-            System.exit(0); // Close the window on cancel
+            dispose();
+            new MainMenu(); // Close the window on cancel
         } else if (e.getSource() == addVehicleButton) {
             // Here you can handle the logic for adding a vehicle
             JOptionPane.showMessageDialog(this, "Vehicle added successfully!");
