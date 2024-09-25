@@ -1,17 +1,18 @@
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.sql.*;
 import javax.swing.*;
 
 class UpdateVehicle extends JFrame implements ActionListener {
 
     // Define components
     JTextField regNumberField, typeField, modelNumberField, rentField, seatsField, colorField, brandField, depositField;
-    JButton addVehicleButton, cancelButton;
+    JButton updateVehicleButton, cancelButton, findVehicleButton;
 
     UpdateVehicle() {
         // Set up the frame
-        setTitle("Add New Vehicle - Rent Roller Vehicle Rental Service");
+        setTitle("Update Vehicle - Rent Roller Vehicle Rental Service");
 
         // Title Label
         JLabel title = new JLabel("Rent Roller Vehicle Rental Service");
@@ -20,7 +21,7 @@ class UpdateVehicle extends JFrame implements ActionListener {
         title.setHorizontalAlignment(JLabel.CENTER);
 
         // Subtitle for "Add New Vehicle"
-        JLabel subtitle = new JLabel("ADD NEW VEHICLE");
+        JLabel subtitle = new JLabel("UPDATE VEHICLE");
         subtitle.setBounds(160, 60, 200, 30);
         subtitle.setFont(new Font("Arial", Font.BOLD, 14));
 
@@ -66,15 +67,20 @@ class UpdateVehicle extends JFrame implements ActionListener {
         depositField.setBounds(450, 250, 150, 30);
 
         // Buttons
-        addVehicleButton = new JButton("Update Vehicle");
-        addVehicleButton.setBounds(180, 300, 150, 40);
-        addVehicleButton.setBackground(new Color(0, 200, 255));
-        addVehicleButton.addActionListener(this);
+        updateVehicleButton = new JButton("Update Vehicle");
+        updateVehicleButton.setBounds(100, 300, 150, 40);
+        updateVehicleButton.setBackground(new Color(0, 200, 255));
+        updateVehicleButton.addActionListener(this);
 
         cancelButton = new JButton("Cancel");
-        cancelButton.setBounds(350, 300, 150, 40);
+        cancelButton.setBounds(270, 300, 150, 40);
         cancelButton.setBackground(new Color(0, 200, 255));
         cancelButton.addActionListener(this);
+
+        findVehicleButton = new JButton("Find");
+        findVehicleButton.setBounds(440, 300, 150, 40);
+        findVehicleButton.setBackground(new Color(0, 200, 255));
+        findVehicleButton.addActionListener(this);
 
         // Add components to the frame
         add(title);
@@ -95,7 +101,8 @@ class UpdateVehicle extends JFrame implements ActionListener {
         add(rentField);
         add(depositLabel);
         add(depositField);
-        add(addVehicleButton);
+        add(findVehicleButton);
+        add(updateVehicleButton);
         add(cancelButton);
 
         // Frame settings
@@ -111,9 +118,42 @@ class UpdateVehicle extends JFrame implements ActionListener {
             JOptionPane.showMessageDialog(this, "Action Cancelled");
             dispose();
             new MainMenu(); // Close the window on cancel
-        } else if (e.getSource() == addVehicleButton) {
-            // Here you can handle the logic for adding a vehicle
-            JOptionPane.showMessageDialog(this, "Vehicle added successfully!");
+        } else if (e.getSource() == updateVehicleButton) {
+            try {
+                Connection con = DriverManager.getConnection("jdbc:mysql://127.0.0.1:3306/rentroller", "root",
+                        "1234Qwer");
+                Statement st = con.createStatement();
+                String query = "UPDATE vehicles SET no_of_seats = " + seatsField.getText() + ", type = '"
+                        + typeField.getText() + "', color = '" + colorField.getText() + "', modelno = '"
+                        + modelNumberField.getText() + "', brand = '" + brandField.getText() + "', rent = '"
+                        + rentField.getText() + "', deposit = '" + depositField.getText() + "' WHERE regno = '"
+                        + regNumberField.getText() + "'";
+                st.executeUpdate(query);
+                JOptionPane.showMessageDialog(this, "Vehicle updated successfully!");
+            } catch (Exception ex) {
+                ex.printStackTrace();
+            }
+        } else if (e.getSource() == findVehicleButton) {
+            try {
+                Connection con = DriverManager.getConnection("jdbc:mysql://127.0.0.1:3306/rentroller", "root",
+                        "1234Qwer");
+                Statement st = con.createStatement();
+                String query = "SELECT * FROM vehicles WHERE regno = " + regNumberField.getText();
+                ResultSet rs = st.executeQuery(query);
+                if (rs.next()) {
+                    regNumberField.setText(rs.getString("regno"));
+                    seatsField.setText(rs.getString("no_of_seats"));
+                    typeField.setText(rs.getString("type"));
+                    colorField.setText(rs.getString("color"));
+                    modelNumberField.setText(rs.getString("modelno"));
+                    brandField.setText(rs.getString("brand"));
+                    rentField.setText(rs.getString("rent"));
+                    depositField.setText(rs.getString("deposit"));
+                }
+            } catch (Exception ex) {
+                ex.printStackTrace();
+            }
+            // JOptionPane.showMessageDialog(this, "Vehicle found successfully!");
         }
     }
 

@@ -1,6 +1,7 @@
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.sql.*;
 import javax.swing.*;
 
 class AddNewVehicle extends JFrame implements ActionListener {
@@ -112,9 +113,42 @@ class AddNewVehicle extends JFrame implements ActionListener {
             dispose();
             new MainMenu(); // Close the window on cancel
         } else if (e.getSource() == addVehicleButton) {
-            // Here you can handle the logic for adding a vehicle
-            JOptionPane.showMessageDialog(this, "Vehicle added successfully!");
+            int rno = Integer.parseInt(regNumberField.getText());
+            String type = typeField.getText();
+            String mno = modelNumberField.getText();
+            int rent = Integer.parseInt(rentField.getText());
+            int noseats = Integer.parseInt(seatsField.getText());
+            String color = colorField.getText();
+            String brand = brandField.getText();
+            int deposit = Integer.parseInt(depositField.getText());
+
+            try {
+                // Class.forName("com.mysql.jdbc.Driver");
+                Connection con = DriverManager.getConnection("jdbc:mysql://127.0.0.1:3306/rentroller", "root",
+                        "1234Qwer");
+                Statement st = con.createStatement();
+                String query = "INSERT INTO VEHICLES(regno,no_of_seats,type,color,modelno,brand,rent,deposit) values("
+                        + rno
+                        + "," +
+                        noseats + "," + "'" + type + "'"
+                        + "," + "'"
+                        + color + "'"
+                        + "," + "'"
+                        + mno + "'"
+                        + "," + "'"
+                        + brand + "'"
+                        + "," + rent + "," + deposit
+                        + ");";
+
+                System.out.println(query);
+                int rs = st.executeUpdate(query);
+                JOptionPane.showMessageDialog(this, "Vehicle added successfully");
+            } catch (java.lang.Exception ex) {
+                System.out.println(ex);
+                JOptionPane.showMessageDialog(this, "Error: " + ex.getMessage());
+            }
         }
+
     }
 
     public static void main(String[] args) {

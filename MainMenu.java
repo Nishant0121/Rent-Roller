@@ -85,39 +85,32 @@ class MainMenu extends JFrame implements ActionListener {
         // Perform specific actions based on button clicked
         switch (command) {
             case "Rent A Vehicle":
-                JOptionPane.showMessageDialog(this, "Navigating to Rent A Vehicle screen...");
-                // Add your logic here for renting a vehicle
                 break;
 
             case "Add New Vehicle":
-                JOptionPane.showMessageDialog(this, "Navigating to Add New Vehicle screen...");
                 dispose();
                 new AddNewVehicle();
                 break;
 
             case "Update Details":
-                JOptionPane.showMessageDialog(this, "Navigating to Update Details screen...");
                 dispose();
                 new UpdateVehicle();
                 break;
 
             case "View All Vehicles":
-                JOptionPane.showMessageDialog(this, "Displaying all available vehicles...");
                 // Add your logic here to show a list of all vehicles
                 break;
 
             case "Add Customers":
-                JOptionPane.showMessageDialog(this, "Navigating to Add Customers screen...");
-                // Add your logic here for adding a customer
+                dispose();
+                new RentRollerUI();
                 break;
 
             case "View Rented Vehicles":
-                JOptionPane.showMessageDialog(this, "Displaying all rented vehicles...");
                 // Add your logic here to show a list of all rented vehicles
                 break;
 
             case "Return Vehicle":
-                JOptionPane.showMessageDialog(this, "Navigating to Return Vehicle screen...");
                 // Add your logic here for returning a rented vehicle
                 break;
 
