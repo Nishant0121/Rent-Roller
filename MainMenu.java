@@ -12,6 +12,11 @@ class MainMenu extends JFrame implements ActionListener {
     MainMenu() {
         // Set up the frame
         setTitle("Rent Roller Vehicle Rental Service");
+        setSize(500, 500);
+        setLayout(null);
+        setLocationRelativeTo(null);
+        setVisible(true);
+        setDefaultCloseOperation(EXIT_ON_CLOSE);
 
         // Title Label
         JLabel title = new JLabel("Rent Roller Vehicle Rental Service");
@@ -72,10 +77,7 @@ class MainMenu extends JFrame implements ActionListener {
         add(btnLogout);
 
         // Frame settings
-        setSize(450, 500);
-        setLayout(null);
-        setVisible(true);
-        setDefaultCloseOperation(EXIT_ON_CLOSE);
+
     }
 
     // Action listener for button events
@@ -85,6 +87,8 @@ class MainMenu extends JFrame implements ActionListener {
         // Perform specific actions based on button clicked
         switch (command) {
             case "Rent A Vehicle":
+                dispose();
+                new RentVehicleForm();
                 break;
 
             case "Add New Vehicle":
@@ -98,12 +102,13 @@ class MainMenu extends JFrame implements ActionListener {
                 break;
 
             case "View All Vehicles":
-                // Add your logic here to show a list of all vehicles
+                dispose();
+                new AllVehicles();
                 break;
 
             case "Add Customers":
                 dispose();
-                new RentRollerUI();
+                new AddCustomer();
                 break;
 
             case "View Rented Vehicles":

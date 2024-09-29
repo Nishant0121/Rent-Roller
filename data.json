@@ -1,0 +1,144 @@
+{
+  "vehicles": [
+    {
+      "vehicle_id": "MH06CG8964",
+      "no_of_seats": 7,
+      "type": "4 Wheeler",
+      "color": "White",
+      "modelno": "KG6784",
+      "brand": "Toyota",
+      "rent": 7000,
+      "deposit": 17000
+    },
+    {
+      "vehicle_id": "MH12AB1234",
+      "no_of_seats": 5,
+      "type": "4 Wheeler",
+      "color": "Black",
+      "modelno": "ZX1234",
+      "brand": "Honda",
+      "rent": 6000,
+      "deposit": 15000
+    },
+    {
+      "vehicle_id": "MH05XY4567",
+      "no_of_seats": 2,
+      "type": "2 Wheeler",
+      "color": "Red",
+      "modelno": "RT5678",
+      "brand": "Yamaha",
+      "rent": 2500,
+      "deposit": 5000
+    },
+    {
+      "vehicle_id": "MH14PQ7890",
+      "no_of_seats": 8,
+      "type": "4 Wheeler",
+      "color": "Silver",
+      "modelno": "MK9012",
+      "brand": "Mercedes",
+      "rent": 15000,
+      "deposit": 35000
+    },
+    {
+      "vehicle_id": "MH08JK3456",
+      "no_of_seats": 4,
+      "type": "4 Wheeler",
+      "color": "Blue",
+      "modelno": "BN4567",
+      "brand": "Ford",
+      "rent": 5000,
+      "deposit": 12000
+    },
+    {
+      "vehicle_id": "MH20LM2345",
+      "no_of_seats": 5,
+      "type": "4 Wheeler",
+      "color": "Grey",
+      "modelno": "NX2345",
+      "brand": "Hyundai",
+      "rent": 5500,
+      "deposit": 13000
+    },
+    {
+      "vehicle_id": "MH10QR6789",
+      "no_of_seats": 2,
+      "type": "2 Wheeler",
+      "color": "Green",
+      "modelno": "SG7890",
+      "brand": "Kawasaki",
+      "rent": 3000,
+      "deposit": 6000
+    },
+    {
+      "vehicle_id": "MH16UV5432",
+      "no_of_seats": 6,
+      "type": "4 Wheeler",
+      "color": "Yellow",
+      "modelno": "TY5432",
+      "brand": "Nissan",
+      "rent": 8000,
+      "deposit": 20000
+    },
+    {
+      "vehicle_id": "MH09WX9876",
+      "no_of_seats": 7,
+      "type": "4 Wheeler",
+      "color": "Brown",
+      "modelno": "DB9876",
+      "brand": "Chevrolet",
+      "rent": 7200,
+      "deposit": 18000
+    },
+    {
+      "vehicle_id": "MH13YZ3456",
+      "no_of_seats": 5,
+      "type": "4 Wheeler",
+      "color": "White",
+      "modelno": "FC3456",
+      "brand": "Volkswagen",
+      "rent": 6200,
+      "deposit": 14000
+    },
+    {
+      "vehicle_id": "MH21AB6789",
+      "no_of_seats": 4,
+      "type": "4 Wheeler",
+      "color": "Pink",
+      "modelno": "XY6789",
+      "brand": "Subaru",
+      "rent": 5800,
+      "deposit": 13500
+    },
+    {
+      "vehicle_id": "MH22CD1234",
+      "no_of_seats": 2,
+      "type": "2 Wheeler",
+      "color": "Orange",
+      "modelno": "PR1234",
+      "brand": "Ducati",
+      "rent": 3500,
+      "deposit": 7000
+    },
+    {
+      "vehicle_id": "MH15EF9876",
+      "no_of_seats": 8,
+      "type": "4 Wheeler",
+      "color": "Gold",
+      "modelno": "SW9876",
+      "brand": "BMW",
+      "rent": 20000,
+      "deposit": 50000
+    },
+    {
+      "vehicle_id": "MH11GH4321",
+      "no_of_seats": 4,
+      "type": "4 Wheeler",
+      "color": "Purple",
+      "modelno": "JU4321",
+      "brand": "Porsche",
+      "rent": 25000,
+      "deposit": 60000
+    }
+  ]
+}

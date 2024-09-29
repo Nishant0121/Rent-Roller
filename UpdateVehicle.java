@@ -109,13 +109,13 @@ class UpdateVehicle extends JFrame implements ActionListener {
         setSize(650, 400);
         setLayout(null);
         setVisible(true);
+        setLocationRelativeTo(null);
         setDefaultCloseOperation(EXIT_ON_CLOSE);
     }
 
     // Action listener for button events
     public void actionPerformed(ActionEvent e) {
         if (e.getSource() == cancelButton) {
-            JOptionPane.showMessageDialog(this, "Action Cancelled");
             dispose();
             new MainMenu(); // Close the window on cancel
         } else if (e.getSource() == updateVehicleButton) {
@@ -126,7 +126,7 @@ class UpdateVehicle extends JFrame implements ActionListener {
                 String query = "UPDATE vehicles SET no_of_seats = " + seatsField.getText() + ", type = '"
                         + typeField.getText() + "', color = '" + colorField.getText() + "', modelno = '"
                         + modelNumberField.getText() + "', brand = '" + brandField.getText() + "', rent = '"
-                        + rentField.getText() + "', deposit = '" + depositField.getText() + "' WHERE regno = '"
+                        + rentField.getText() + "', deposit = '" + depositField.getText() + "' WHERE vehicle_id = '"
                         + regNumberField.getText() + "'";
                 st.executeUpdate(query);
                 JOptionPane.showMessageDialog(this, "Vehicle updated successfully!");
@@ -138,10 +138,10 @@ class UpdateVehicle extends JFrame implements ActionListener {
                 Connection con = DriverManager.getConnection("jdbc:mysql://127.0.0.1:3306/rentroller", "root",
                         "1234Qwer");
                 Statement st = con.createStatement();
-                String query = "SELECT * FROM vehicles WHERE regno = " + regNumberField.getText();
+                String query = "SELECT * FROM vehicles WHERE vehicle_id = '" + regNumberField.getText() + "'";
                 ResultSet rs = st.executeQuery(query);
                 if (rs.next()) {
-                    regNumberField.setText(rs.getString("regno"));
+                    regNumberField.setText(rs.getString("vehicle_id"));
                     seatsField.setText(rs.getString("no_of_seats"));
                     typeField.setText(rs.getString("type"));
                     colorField.setText(rs.getString("color"));

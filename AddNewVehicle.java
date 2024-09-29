@@ -102,6 +102,7 @@ class AddNewVehicle extends JFrame implements ActionListener {
         // Frame settings
         setSize(650, 400);
         setLayout(null);
+        setLocationRelativeTo(null);
         setVisible(true);
         setDefaultCloseOperation(EXIT_ON_CLOSE);
     }
@@ -109,11 +110,10 @@ class AddNewVehicle extends JFrame implements ActionListener {
     // Action listener for button events
     public void actionPerformed(ActionEvent e) {
         if (e.getSource() == cancelButton) {
-            JOptionPane.showMessageDialog(this, "Action Cancelled");
             dispose();
             new MainMenu(); // Close the window on cancel
         } else if (e.getSource() == addVehicleButton) {
-            int rno = Integer.parseInt(regNumberField.getText());
+            String vehicle_id = regNumberField.getText();
             String type = typeField.getText();
             String mno = modelNumberField.getText();
             int rent = Integer.parseInt(rentField.getText());
@@ -127,9 +127,9 @@ class AddNewVehicle extends JFrame implements ActionListener {
                 Connection con = DriverManager.getConnection("jdbc:mysql://127.0.0.1:3306/rentroller", "root",
                         "1234Qwer");
                 Statement st = con.createStatement();
-                String query = "INSERT INTO VEHICLES(regno,no_of_seats,type,color,modelno,brand,rent,deposit) values("
-                        + rno
-                        + "," +
+                String query = "INSERT INTO VEHICLES(vehicle_id,no_of_seats,type,color,modelno,brand,rent,deposit) values('"
+                        + vehicle_id
+                        + "'," +
                         noseats + "," + "'" + type + "'"
                         + "," + "'"
                         + color + "'"
