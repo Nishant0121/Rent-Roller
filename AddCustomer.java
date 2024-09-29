@@ -7,7 +7,7 @@ import javax.swing.table.DefaultTableModel;
 public class AddCustomer extends JFrame implements ActionListener {
 
     // Declare instance variables for the input fields and table
-    private JTextField nameField, mobileField, dlField, locationField, idProofNumberField;
+    private JTextField nameField, mobileField, dlField, locationField, customer_idField;
     private JComboBox<String> idProofDropdown;
     private JTable vehicleTable;
     private DefaultTableModel tableModel;
@@ -108,15 +108,15 @@ public class AddCustomer extends JFrame implements ActionListener {
         panel.add(idProofDropdown, constraints);
 
         // ID Proof Number Label and TextField
-        JLabel idProofNumberLabel = new JLabel("Id Proof Number");
+        JLabel customer_idLabel = new JLabel("Id Proof Number");
         constraints.gridx = 0;
         constraints.gridy = 7;
-        panel.add(idProofNumberLabel, constraints);
+        panel.add(customer_idLabel, constraints);
 
-        idProofNumberField = new JTextField(20);
-        idProofNumberField.setPreferredSize(new Dimension(200, 30));
+        customer_idField = new JTextField(20);
+        customer_idField.setPreferredSize(new Dimension(200, 30));
         constraints.gridx = 1;
-        panel.add(idProofNumberField, constraints);
+        panel.add(customer_idField, constraints);
 
         // Buttons - Add Costumer and Cancel
         Color buttonColor = new Color(0, 200, 255);
@@ -171,12 +171,12 @@ public class AddCustomer extends JFrame implements ActionListener {
 
             // Add rows to the table
             while (rs.next()) {
-                String idProofNumber = rs.getString("idProofNumber");
+                String customer_id = rs.getString("customer_id");
                 String customerName = rs.getString("customerName");
                 String mobileNumber = rs.getString("mobileNumber");
                 String dlNo = rs.getString("dlNo");
                 String location = rs.getString("location");
-                tableModel.addRow(new Object[] { idProofNumber, customerName, mobileNumber, dlNo, location });
+                tableModel.addRow(new Object[] { customer_id, customerName, mobileNumber, dlNo, location });
             }
 
             con.close();
@@ -197,7 +197,7 @@ public class AddCustomer extends JFrame implements ActionListener {
         String dlNo = dlField.getText();
         String location = locationField.getText();
         String idProof = (String) idProofDropdown.getSelectedItem();
-        String idProofNumber = idProofNumberField.getText();
+        String customer_id = customer_idField.getText();
 
         // Add logic to store customer details into the database or perform other
         if (e.getSource() == addButton) {
@@ -206,7 +206,7 @@ public class AddCustomer extends JFrame implements ActionListener {
                         "1234Qwer");
                 String query = "insert into customer values ('" + customerName + "','" + mobileNumber + "','" + dlNo
                         + "','"
-                        + location + "','" + idProof + "','" + idProofNumber + "')";
+                        + location + "','" + idProof + "','" + customer_id + "')";
                 System.out.println("Query: " + query);
                 Statement st = con.createStatement();
                 st.executeUpdate(query);
