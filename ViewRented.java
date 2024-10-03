@@ -1,19 +1,23 @@
 import java.awt.*;
+import java.awt.event.*;
 import java.sql.*;
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
 
-public class ViewRented extends JFrame {
-    private JTable rentedVehiclesTable;
+public class ViewRented extends JFrame implements ActionListener {
     private static final String DB_URL = "jdbc:mysql://127.0.0.1:3306/rentroller";
     private static final String USER = "root";
     private static final String PASS = "1234Qwer";
 
-    public ViewRented() {
+    private JTable rentedVehiclesTable;
+    private JButton closeButton;
+
+    ViewRented() {
         setTitle("Rented Vehicles");
         setSize(800, 400);
         setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         setLocationRelativeTo(null);
+        setVisible(true);
 
         // Create the table model with column names
         String[] columnNames = { "Vehicle ID", "Customer Name", "Mobile Number", "Location", "From", "To" };
@@ -27,6 +31,15 @@ public class ViewRented extends JFrame {
 
         // Add the scroll pane to the frame
         add(scrollPane, BorderLayout.CENTER);
+
+        Color buttonColor = new Color(0, 200, 255);
+        // Create and add the close button
+        closeButton = new JButton("Close");
+        closeButton.setBackground(buttonColor);
+        closeButton.addActionListener(this);
+        JPanel buttonPanel = new JPanel();
+        buttonPanel.add(closeButton);
+        add(buttonPanel, BorderLayout.SOUTH);
 
         // Populate the table with data from SQL Server
         fetchRentedVehiclesData(model);
@@ -55,10 +68,15 @@ public class ViewRented extends JFrame {
         }
     }
 
+    @Override
+    public void actionPerformed(ActionEvent e) {
+        if (e.getSource() == closeButton) {
+            dispose(); // Close the current window
+            new MainMenu(); // Open the main menu (assuming you have a MainMenu class)
+        }
+    }
+
     public static void main(String[] args) {
-        SwingUtilities.invokeLater(() -> {
-            ViewRented viewRented = new ViewRented();
-            viewRented.setVisible(true);
-        });
+        new ViewRented();
     }
 }

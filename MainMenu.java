@@ -112,11 +112,13 @@ class MainMenu extends JFrame implements ActionListener {
                 break;
 
             case "View Rented Vehicles":
-                // Add your logic here to show a list of all rented vehicles
+                dispose();
+                new ViewRented();
                 break;
 
             case "Return Vehicle":
-                // Add your logic here for returning a rented vehicle
+                dispose();
+                new ReturnVehicle();
                 break;
 
             case "Logout":

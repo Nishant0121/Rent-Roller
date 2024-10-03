@@ -26,7 +26,7 @@ class LoginForm extends JFrame implements ActionListener {
         l2.setFont(new Font("Arial", Font.PLAIN, 14));
 
         // Email Input Field
-        tx1 = new JTextField("Input Email");
+        tx1 = new JTextField("");
         tx1.setBounds(150, 80, 150, 30);
 
         // Password Label
@@ -35,7 +35,7 @@ class LoginForm extends JFrame implements ActionListener {
         l3.setFont(new Font("Arial", Font.PLAIN, 14));
 
         // Password Input Field
-        tx2 = new JPasswordField("Input Password");
+        tx2 = new JPasswordField("");
         tx2.setBounds(150, 130, 150, 30);
 
         // Login Button
@@ -69,14 +69,17 @@ class LoginForm extends JFrame implements ActionListener {
         if (email.equals("Input Email") || password.equals("Input Password")) {
             JOptionPane.showMessageDialog(this, "Please enter valid credentials");
         } else {
-            JOptionPane.showMessageDialog(this, "Login Successful!");
+            if (email.isEmpty() || password.isEmpty()) {
+                JOptionPane.showMessageDialog(this, "Login Failed. Please enter valid credentials!");
+            } else {
+                JOptionPane.showMessageDialog(this, "Login Successful!");
+                // Close the current login window
+                dispose();
+                new MainMenu();
+            }
 
-            // Close the current login window
-            dispose();
-
-            // Open the MainMenu
-            new MainMenu();
         }
+
     }
 
     public static void main(String[] args) {
