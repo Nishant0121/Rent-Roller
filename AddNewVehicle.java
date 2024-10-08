@@ -10,71 +10,89 @@ class AddNewVehicle extends JFrame implements ActionListener {
     JTextField regNumberField, typeField, modelNumberField, rentField, seatsField, colorField, brandField, depositField;
     JButton addVehicleButton, cancelButton;
 
+    private Color bgColor = new Color(30, 30, 30);
+    private Color textColor = new Color(230, 230, 230);
+    private Color accentColor = new Color(0, 150, 136);
+    private Color inputColor = new Color(255, 255, 255);
+
     AddNewVehicle() {
         // Set up the frame
         setTitle("Add New Vehicle - Rent Roller Vehicle Rental Service");
+        getContentPane().setBackground(bgColor);
 
         // Title Label
         JLabel title = new JLabel("Rent Roller Vehicle Rental Service");
         title.setBounds(50, 20, 400, 30);
+        title.setForeground(textColor);
         title.setFont(new Font("Arial", Font.BOLD, 20));
         title.setHorizontalAlignment(JLabel.CENTER);
 
         // Subtitle for "Add New Vehicle"
         JLabel subtitle = new JLabel("ADD NEW VEHICLE");
         subtitle.setBounds(160, 60, 200, 30);
+        subtitle.setForeground(textColor);
         subtitle.setFont(new Font("Arial", Font.BOLD, 14));
 
         // Labels and Text Fields
         JLabel regNumberLabel = new JLabel("Registration number");
         regNumberLabel.setBounds(30, 100, 150, 30);
+        regNumberLabel.setForeground(textColor);
         regNumberField = new JTextField();
         regNumberField.setBounds(180, 100, 150, 30);
 
         JLabel seatsLabel = new JLabel("No. of Seats");
         seatsLabel.setBounds(350, 100, 150, 30);
+        seatsLabel.setForeground(textColor);
         seatsField = new JTextField();
         seatsField.setBounds(450, 100, 150, 30);
 
         JLabel typeLabel = new JLabel("Type");
         typeLabel.setBounds(30, 150, 150, 30);
+        typeLabel.setForeground(textColor);
         typeField = new JTextField();
         typeField.setBounds(180, 150, 150, 30);
 
         JLabel colorLabel = new JLabel("Color");
         colorLabel.setBounds(350, 150, 150, 30);
+        colorLabel.setForeground(textColor);
         colorField = new JTextField();
         colorField.setBounds(450, 150, 150, 30);
 
         JLabel modelNumberLabel = new JLabel("Model Number");
         modelNumberLabel.setBounds(30, 200, 150, 30);
+        modelNumberLabel.setForeground(textColor);
         modelNumberField = new JTextField();
         modelNumberField.setBounds(180, 200, 150, 30);
 
         JLabel brandLabel = new JLabel("Brand");
         brandLabel.setBounds(350, 200, 150, 30);
+        brandLabel.setForeground(textColor);
         brandField = new JTextField();
         brandField.setBounds(450, 200, 150, 30);
 
         JLabel rentLabel = new JLabel("Rent (Per Day)");
         rentLabel.setBounds(30, 250, 150, 30);
+        rentLabel.setForeground(textColor);
         rentField = new JTextField();
         rentField.setBounds(180, 250, 150, 30);
 
         JLabel depositLabel = new JLabel("Deposit");
         depositLabel.setBounds(350, 250, 150, 30);
+        depositLabel.setForeground(textColor);
         depositField = new JTextField();
         depositField.setBounds(450, 250, 150, 30);
 
         // Buttons
         addVehicleButton = new JButton("Add Vehicle");
         addVehicleButton.setBounds(180, 300, 150, 40);
-        addVehicleButton.setBackground(new Color(0, 200, 255));
+        addVehicleButton.setBackground(accentColor);
+        addVehicleButton.setForeground(inputColor);
         addVehicleButton.addActionListener(this);
 
         cancelButton = new JButton("Cancel");
         cancelButton.setBounds(350, 300, 150, 40);
-        cancelButton.setBackground(new Color(0, 200, 255));
+        cancelButton.setBackground(accentColor);
+        cancelButton.setForeground(inputColor);
         cancelButton.addActionListener(this);
 
         // Add components to the frame

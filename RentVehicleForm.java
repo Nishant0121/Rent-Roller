@@ -22,119 +22,164 @@ public class RentVehicleForm extends JFrame implements ActionListener {
     private static final String USER = "root";
     private static final String PASS = "1234Qwer";
 
+    private Color bgColor = new Color(30, 30, 30);
+    private Color textColor = new Color(230, 230, 230);
+    private Color accentColor = new Color(0, 150, 136);
+    private Color inputColor = new Color(0, 0, 0);
+
     RentVehicleForm() {
         // Set up the frame
         setTitle("Rent Roller Vehicle Rental Service");
-        setSize(700, 450); // Increased height for the new field
-        setLayout(null);
-        setLocationRelativeTo(null); // Center on screen
+        setSize(700, 600);
+        setLocationRelativeTo(null); // Center the window on screen
         setDefaultCloseOperation(EXIT_ON_CLOSE);
 
+        // Create a main panel with GridBagLayout
+        JPanel mainPanel = new JPanel(new GridBagLayout());
+        mainPanel.setBackground(bgColor);
+
+        // Create a content panel with null layout
+        JPanel contentPanel = new JPanel(null);
+        contentPanel.setBackground(bgColor);
+        contentPanel.setPreferredSize(new Dimension(600, 400));
+
+        // Add components to contentPanel
         // Title
         JLabel lblTitle = new JLabel("Rent Roller Vehicle Rental Service");
         lblTitle.setFont(new Font("Arial", Font.BOLD, 24));
         lblTitle.setBounds(100, 10, 400, 30);
         lblTitle.setHorizontalAlignment(JLabel.CENTER);
-        add(lblTitle);
+        lblTitle.setForeground(accentColor);
+        contentPanel.add(lblTitle);
 
         // Labels and Fields
         JLabel lblVehicleId = new JLabel("Vehicle Id");
         lblVehicleId.setBounds(50, 70, 100, 30);
-        add(lblVehicleId);
+        lblVehicleId.setForeground(textColor);
+        contentPanel.add(lblVehicleId);
 
         txtVehicleId = new JTextField();
         txtVehicleId.setBounds(150, 70, 150, 30);
-        add(txtVehicleId);
+        txtVehicleId.setForeground(inputColor);
+        contentPanel.add(txtVehicleId);
 
         JLabel lblCustomerId = new JLabel("Customer Id");
         lblCustomerId.setBounds(50, 110, 100, 30);
-        add(lblCustomerId);
+        lblCustomerId.setForeground(textColor);
+        contentPanel.add(lblCustomerId);
 
         txtCustomerId = new JTextField();
         txtCustomerId.setBounds(150, 110, 150, 30);
-        add(txtCustomerId);
+        txtCustomerId.setForeground(inputColor);
+        contentPanel.add(txtCustomerId);
 
         JLabel lblCustomerName = new JLabel("Customer Name");
         lblCustomerName.setBounds(50, 150, 100, 30);
-        add(lblCustomerName);
+        lblCustomerName.setForeground(textColor);
+        contentPanel.add(lblCustomerName);
 
         txtCustomerName = new JTextField();
         txtCustomerName.setBounds(150, 150, 150, 30);
-        add(txtCustomerName);
+        txtCustomerName.setForeground(inputColor);
+        contentPanel.add(txtCustomerName);
 
         JLabel lblRentPerDay = new JLabel("Rent (Per Day)");
         lblRentPerDay.setBounds(50, 190, 100, 30);
-        add(lblRentPerDay);
+        lblRentPerDay.setForeground(textColor);
+        contentPanel.add(lblRentPerDay);
 
         txtRentPerDay = new JTextField();
         txtRentPerDay.setBounds(150, 190, 150, 30);
-        add(txtRentPerDay);
+        txtRentPerDay.setForeground(inputColor);
+        contentPanel.add(txtRentPerDay);
 
         // New Location Field
         JLabel lblLocation = new JLabel("Location");
         lblLocation.setBounds(50, 230, 100, 30);
-        add(lblLocation);
+        lblLocation.setForeground(textColor);
+        contentPanel.add(lblLocation);
 
         txtLocation = new JTextField();
         txtLocation.setBounds(150, 230, 150, 30);
-        add(txtLocation);
+        txtLocation.setForeground(inputColor);
+        contentPanel.add(txtLocation);
 
         JLabel lblDateFrom = new JLabel("Date (From)");
         lblDateFrom.setBounds(330, 70, 100, 30);
-        add(lblDateFrom);
+        lblDateFrom.setForeground(textColor);
+        contentPanel.add(lblDateFrom);
 
         dateFrom = new JSpinner(new SpinnerDateModel());
         JSpinner.DateEditor fromEditor = new JSpinner.DateEditor(dateFrom, "dd MMM yyyy");
         dateFrom.setEditor(fromEditor);
         dateFrom.setValue(new Date()); // Default to today's date
         dateFrom.setBounds(430, 70, 150, 30);
-        add(dateFrom);
+        dateFrom.setForeground(inputColor);
+        contentPanel.add(dateFrom);
 
         JLabel lblDateTo = new JLabel("Date (To)");
         lblDateTo.setBounds(330, 110, 100, 30);
-        add(lblDateTo);
+        lblDateTo.setForeground(textColor);
+        contentPanel.add(lblDateTo);
 
         dateTo = new JSpinner(new SpinnerDateModel());
         JSpinner.DateEditor toEditor = new JSpinner.DateEditor(dateTo, "dd MMM yyyy");
         dateTo.setEditor(toEditor);
         dateTo.setValue(new Date()); // Default to today's date
         dateTo.setBounds(430, 110, 150, 30);
-        add(dateTo);
+        dateTo.setForeground(inputColor);
+        contentPanel.add(dateTo);
 
         JLabel lblDepositType = new JLabel("Deposit");
         lblDepositType.setBounds(330, 150, 100, 30);
-        add(lblDepositType);
+        lblDepositType.setForeground(textColor);
+        contentPanel.add(lblDepositType);
 
         cmbDepositType = new JComboBox<>(new String[] { "Offline", "Online" });
         cmbDepositType.setBounds(430, 150, 150, 30);
-        add(cmbDepositType);
+        cmbDepositType.setForeground(inputColor);
+        contentPanel.add(cmbDepositType);
 
         JLabel lblDepositAmount = new JLabel("Deposit Amount");
         lblDepositAmount.setBounds(330, 190, 100, 30);
-        add(lblDepositAmount);
+        lblDepositAmount.setForeground(textColor);
+        contentPanel.add(lblDepositAmount);
 
         txtDepositAmount = new JTextField();
         txtDepositAmount.setBounds(430, 190, 150, 30);
-        add(txtDepositAmount);
+        txtDepositAmount.setForeground(inputColor);
+        contentPanel.add(txtDepositAmount);
 
         // Buttons
         btnFind = new JButton("Find");
-        btnFind.setBounds(150, 290, 100, 30);
-        btnFind.setBackground(new Color(0, 200, 255)); // Light cyan
+        btnFind.setBounds(150, 320, 100, 40);
+        btnFind.setFont(new Font("Arial", Font.BOLD, 20));
+        btnFind.setBackground(accentColor);
+        btnFind.setForeground(textColor);
         btnFind.addActionListener(this);
-        add(btnFind);
+        contentPanel.add(btnFind);
 
-        btnOk = new JButton("Ok");
-        btnOk.setBounds(270, 290, 100, 30);
-        btnOk.setBackground(new Color(0, 200, 255)); // Light cyan
+        btnOk = new JButton("Rent");
+        btnOk.setBounds(270, 320, 100, 40);
+        btnOk.setFont(new Font("Arial", Font.BOLD, 20));
+        btnOk.setBackground(accentColor);
+        btnOk.setForeground(textColor);
         btnOk.addActionListener(this);
-        add(btnOk);
+        contentPanel.add(btnOk);
 
         btnCancel = new JButton("Cancel");
-        btnCancel.setBounds(390, 290, 100, 30);
-        btnCancel.setBackground(new Color(0, 200, 255)); // Light cyan
+        btnCancel.setBounds(390, 320, 100, 40);
+        btnCancel.setFont(new Font("Arial", Font.BOLD, 20));
+        btnCancel.setBackground(accentColor);
+        btnCancel.setForeground(textColor);
         btnCancel.addActionListener(this);
-        add(btnCancel);
+        contentPanel.add(btnCancel);
+
+        // Add contentPanel to mainPanel
+        mainPanel.add(contentPanel);
+
+        // Set mainPanel as the content pane
+        setContentPane(mainPanel);
 
         setVisible(true);
     }
@@ -201,7 +246,7 @@ public class RentVehicleForm extends JFrame implements ActionListener {
         String customerName = "Not Found";
         try (Connection conn = DriverManager.getConnection(DB_URL, USER, PASS);
                 PreparedStatement pstmt = conn
-                        .prepareStatement("SELECT customerName FROM customer WHERE idProofNumber = ?")) {
+                        .prepareStatement("SELECT customerName FROM customer WHERE customer_id = ?")) {
             pstmt.setString(1, customerId);
             ResultSet rs = pstmt.executeQuery();
             if (rs.next()) {

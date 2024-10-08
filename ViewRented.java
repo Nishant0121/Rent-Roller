@@ -12,15 +12,22 @@ public class ViewRented extends JFrame implements ActionListener {
     private JTable rentedVehiclesTable;
     private JButton closeButton;
 
+    private Color inputColor = new Color(0, 0, 0);
+    private Color textColor = new Color(230, 230, 230);
+    private Color accentColor = new Color(0, 150, 136);
+    private Color bgColor = new Color(30, 30, 30);
+
     ViewRented() {
         setTitle("Rented Vehicles");
         setSize(800, 400);
+        getContentPane().setBackground(bgColor);
         setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         setLocationRelativeTo(null);
         setVisible(true);
 
         // Create the table model with column names
         String[] columnNames = { "Vehicle ID", "Customer Name", "Mobile Number", "Location", "From", "To" };
+
         DefaultTableModel model = new DefaultTableModel(columnNames, 0);
 
         // Create the JTable with the model
@@ -32,10 +39,10 @@ public class ViewRented extends JFrame implements ActionListener {
         // Add the scroll pane to the frame
         add(scrollPane, BorderLayout.CENTER);
 
-        Color buttonColor = new Color(0, 200, 255);
         // Create and add the close button
         closeButton = new JButton("Close");
-        closeButton.setBackground(buttonColor);
+        closeButton.setBackground(accentColor);
+        closeButton.setForeground(textColor);
         closeButton.addActionListener(this);
         JPanel buttonPanel = new JPanel();
         buttonPanel.add(closeButton);

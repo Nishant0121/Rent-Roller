@@ -1,88 +1,123 @@
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
+import java.awt.event.*;
 import javax.swing.*;
+import javax.swing.border.*;
 
 class LoginForm extends JFrame implements ActionListener {
 
     // Define components
-    JLabel l1, l2, l3;
-    JTextField tx1;
-    JPasswordField tx2;
-    JButton loginButton;
+    private JLabel titleLabel, emailLabel, passwordLabel;
+    private JTextField emailField;
+    private JPasswordField passwordField;
+    private JButton loginButton;
+
+    // Define colors for dark theme
+    private Color bgColor = new Color(30, 30, 30);
+    private Color textColor = new Color(230, 230, 230);
+    private Color accentColor = new Color(0, 150, 136);
 
     LoginForm() {
-        // Set up the frame (no need to create a new JFrame, just use 'this')
+        // Set up the frame
         setTitle("Rent Roller Vehicle Rental Service");
+        getContentPane().setBackground(bgColor);
 
         // Title Label
-        l1 = new JLabel("Rent Roller Vehicle Rental Service");
-        l1.setBounds(60, 20, 300, 30);
-        l1.setFont(new Font("Arial", Font.BOLD, 18));
+        titleLabel = new JLabel("Rent Roller Vehicle Rental Service");
+        titleLabel.setForeground(accentColor);
+        titleLabel.setFont(new Font("Arial", Font.BOLD, 20));
+        titleLabel.setHorizontalAlignment(JLabel.CENTER);
 
-        // Email Label
-        l2 = new JLabel("Email:");
-        l2.setBounds(50, 80, 100, 30);
-        l2.setFont(new Font("Arial", Font.PLAIN, 14));
+        // Email Label and Field
+        emailLabel = new JLabel("Email:");
+        emailLabel.setForeground(textColor);
+        emailLabel.setFont(new Font("Arial", Font.PLAIN, 14));
 
-        // Email Input Field
-        tx1 = new JTextField("");
-        tx1.setBounds(150, 80, 150, 30);
+        emailField = new JTextField();
+        styleTextField(emailField);
 
-        // Password Label
-        l3 = new JLabel("Password:");
-        l3.setBounds(50, 130, 100, 30);
-        l3.setFont(new Font("Arial", Font.PLAIN, 14));
+        // Password Label and Field
+        passwordLabel = new JLabel("Password:");
+        passwordLabel.setForeground(textColor);
+        passwordLabel.setFont(new Font("Arial", Font.PLAIN, 14));
 
-        // Password Input Field
-        tx2 = new JPasswordField("");
-        tx2.setBounds(150, 130, 150, 30);
+        passwordField = new JPasswordField();
+        styleTextField(passwordField);
 
         // Login Button
         loginButton = new JButton("Login");
-        loginButton.setBounds(150, 180, 100, 30);
-        loginButton.setBackground(Color.CYAN);
+        loginButton.setBackground(accentColor);
+        loginButton.setForeground(Color.WHITE);
+        loginButton.setFocusPainted(false);
+        loginButton.setBorder(new EmptyBorder(10, 20, 10, 20));
+        loginButton.setCursor(new Cursor(Cursor.HAND_CURSOR));
         loginButton.addActionListener(this);
 
-        // Add components to frame
-        add(l1);
-        add(l2);
-        add(tx1);
-        add(l3);
-        add(tx2);
-        add(loginButton);
+        // Create main panel with GridBagLayout
+        JPanel mainPanel = new JPanel(new GridBagLayout());
+        mainPanel.setBackground(bgColor);
+        mainPanel.setBorder(new EmptyBorder(20, 40, 20, 40));
+
+        // Add components to main panel
+        GridBagConstraints gbc = new GridBagConstraints();
+        gbc.gridwidth = GridBagConstraints.REMAINDER;
+        gbc.fill = GridBagConstraints.HORIZONTAL;
+        gbc.insets = new Insets(10, 0, 10, 0);
+
+        mainPanel.add(titleLabel, gbc);
+        gbc.insets = new Insets(20, 0, 5, 0);
+        mainPanel.add(emailLabel, gbc);
+        gbc.insets = new Insets(0, 0, 15, 0);
+        mainPanel.add(emailField, gbc);
+        gbc.insets = new Insets(0, 0, 5, 0);
+        mainPanel.add(passwordLabel, gbc);
+        gbc.insets = new Insets(0, 0, 20, 0);
+        mainPanel.add(passwordField, gbc);
+        mainPanel.add(loginButton, gbc);
+
+        // Add main panel to frame
+        add(mainPanel);
 
         // Frame settings
-        setSize(400, 300);
-        setLayout(null);
+        setSize(400, 350);
         setLocationRelativeTo(null);
         setVisible(true);
         setDefaultCloseOperation(EXIT_ON_CLOSE);
     }
 
+    private void styleTextField(JTextField textField) {
+        textField.setBackground(new Color(45, 45, 45));
+        textField.setForeground(textColor);
+        textField.setCaretColor(textColor);
+        textField.setBorder(BorderFactory.createCompoundBorder(
+                new LineBorder(new Color(60, 60, 60)),
+                new EmptyBorder(5, 10, 5, 10)));
+        textField.setFont(new Font("Arial", Font.PLAIN, 14));
+    }
+
     // Action listener to handle button click
     public void actionPerformed(ActionEvent e) {
-        String email = tx1.getText();
-        String password = new String(tx2.getPassword());
+        String email = emailField.getText();
+        String password = new String(passwordField.getPassword());
 
-        // Simple validation (add your own logic here)
-        if (email.equals("Input Email") || password.equals("Input Password")) {
-            JOptionPane.showMessageDialog(this, "Please enter valid credentials");
+        if (email.isEmpty() || password.isEmpty()) {
+            showErrorMessage("Please enter both email and password.");
         } else {
-            if (email.isEmpty() || password.isEmpty()) {
-                JOptionPane.showMessageDialog(this, "Login Failed. Please enter valid credentials!");
-            } else {
-                JOptionPane.showMessageDialog(this, "Login Successful!");
-                // Close the current login window
-                dispose();
-                new MainMenu();
-            }
-
+            // Add your authentication logic here
+            showSuccessMessage("Login Successful!");
+            dispose();
+            new MainMenu();
         }
+    }
 
+    private void showErrorMessage(String message) {
+        JOptionPane.showMessageDialog(this, message, "Login Error", JOptionPane.ERROR_MESSAGE);
+    }
+
+    private void showSuccessMessage(String message) {
+        JOptionPane.showMessageDialog(this, message, "Success", JOptionPane.INFORMATION_MESSAGE);
     }
 
     public static void main(String[] args) {
-        new LoginForm();
+        SwingUtilities.invokeLater(() -> new LoginForm());
     }
 }

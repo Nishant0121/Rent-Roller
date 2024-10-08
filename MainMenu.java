@@ -2,6 +2,7 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import javax.swing.*;
+import javax.swing.border.*;
 
 class MainMenu extends JFrame implements ActionListener {
 
@@ -9,75 +10,76 @@ class MainMenu extends JFrame implements ActionListener {
     JButton btnRentVehicle, btnAddVehicle, btnUpdateDetails, btnViewAllVehicle, btnAddCustomers,
             btnViewRentedVehicles, btnReturnVehicle, btnLogout;
 
+    // Define colors for dark theme
+    private Color bgColor = new Color(30, 30, 30);
+    private Color textColor = new Color(230, 230, 230);
+    private Color accentColor = new Color(0, 150, 136);
+
     MainMenu() {
         // Set up the frame
         setTitle("Rent Roller Vehicle Rental Service");
-        setSize(500, 500);
-        setLayout(null);
+        setSize(550, 650); // Increased frame size
+        setLayout(new GridBagLayout());
+        getContentPane().setBackground(bgColor);
         setLocationRelativeTo(null);
-        setVisible(true);
         setDefaultCloseOperation(EXIT_ON_CLOSE);
 
         // Title Label
         JLabel title = new JLabel("Rent Roller Vehicle Rental Service");
-        title.setBounds(60, 20, 400, 30);
-        title.setFont(new Font("Arial", Font.BOLD, 18));
+        title.setForeground(accentColor);
+        title.setFont(new Font("Arial", Font.BOLD, 20));
         title.setHorizontalAlignment(JLabel.CENTER);
 
         // Button setup
-        btnRentVehicle = new JButton("Rent A Vehicle");
-        btnAddVehicle = new JButton("Add New Vehicle");
-        btnUpdateDetails = new JButton("Update Details");
-        btnViewAllVehicle = new JButton("View All Vehicles");
-        btnAddCustomers = new JButton("Add Customers");
-        btnViewRentedVehicles = new JButton("View Rented Vehicles");
-        btnReturnVehicle = new JButton("Return Vehicle");
-        btnLogout = new JButton("Logout");
+        btnRentVehicle = createStyledButton("Rent A Vehicle");
+        btnAddVehicle = createStyledButton("Add New Vehicle");
+        btnUpdateDetails = createStyledButton("Update Details");
+        btnViewAllVehicle = createStyledButton("View All Vehicles");
+        btnAddCustomers = createStyledButton("Add Customers");
+        btnViewRentedVehicles = createStyledButton("View Rented Vehicles");
+        btnReturnVehicle = createStyledButton("Return Vehicle");
+        btnLogout = createStyledButton("Logout");
 
-        // Set bounds for the buttons
-        btnRentVehicle.setBounds(150, 70, 150, 30);
-        btnAddVehicle.setBounds(150, 110, 150, 30);
-        btnUpdateDetails.setBounds(150, 150, 150, 30);
-        btnViewAllVehicle.setBounds(150, 190, 150, 30);
-        btnAddCustomers.setBounds(150, 230, 150, 30);
-        btnViewRentedVehicles.setBounds(150, 270, 150, 30);
-        btnReturnVehicle.setBounds(150, 310, 150, 30);
-        btnLogout.setBounds(150, 350, 150, 30);
+        // Create main panel with GridBagLayout
+        JPanel mainPanel = new JPanel(new GridBagLayout());
+        mainPanel.setBackground(bgColor);
+        mainPanel.setBorder(new EmptyBorder(20, 40, 20, 40));
 
-        // Set button colors (matching the screenshot)
-        Color buttonColor = new Color(0, 200, 255); // Light cyan color
-        btnRentVehicle.setBackground(buttonColor);
-        btnAddVehicle.setBackground(buttonColor);
-        btnUpdateDetails.setBackground(buttonColor);
-        btnViewAllVehicle.setBackground(buttonColor);
-        btnAddCustomers.setBackground(buttonColor);
-        btnViewRentedVehicles.setBackground(buttonColor);
-        btnReturnVehicle.setBackground(buttonColor);
-        btnLogout.setBackground(buttonColor);
+        // Add components to main panel
+        GridBagConstraints gbc = new GridBagConstraints();
+        gbc.gridwidth = GridBagConstraints.REMAINDER;
+        gbc.fill = GridBagConstraints.HORIZONTAL;
+        gbc.insets = new Insets(10, 0, 10, 0);
 
-        // Add action listeners for all buttons
-        btnRentVehicle.addActionListener(this);
-        btnAddVehicle.addActionListener(this);
-        btnUpdateDetails.addActionListener(this);
-        btnViewAllVehicle.addActionListener(this);
-        btnAddCustomers.addActionListener(this);
-        btnViewRentedVehicles.addActionListener(this);
-        btnReturnVehicle.addActionListener(this);
-        btnLogout.addActionListener(this);
+        mainPanel.add(title, gbc);
+        gbc.insets = new Insets(20, 0, 10, 0);
+        mainPanel.add(btnRentVehicle, gbc);
+        gbc.insets = new Insets(10, 0, 10, 0);
+        mainPanel.add(btnAddVehicle, gbc);
+        mainPanel.add(btnUpdateDetails, gbc);
+        mainPanel.add(btnViewAllVehicle, gbc);
+        mainPanel.add(btnAddCustomers, gbc);
+        mainPanel.add(btnViewRentedVehicles, gbc);
+        mainPanel.add(btnReturnVehicle, gbc);
+        gbc.insets = new Insets(20, 0, 10, 0);
+        mainPanel.add(btnLogout, gbc);
 
-        // Add components to frame
-        add(title);
-        add(btnRentVehicle);
-        add(btnAddVehicle);
-        add(btnUpdateDetails);
-        add(btnViewAllVehicle);
-        add(btnAddCustomers);
-        add(btnViewRentedVehicles);
-        add(btnReturnVehicle);
-        add(btnLogout);
+        // Add main panel to frame
+        add(mainPanel);
 
-        // Frame settings
+        setVisible(true);
+    }
 
+    private JButton createStyledButton(String text) {
+        JButton button = new JButton(text);
+        button.setBackground(accentColor);
+        button.setForeground(Color.WHITE);
+        button.setFont(new Font("Arial", Font.BOLD, 16)); // Increased font size
+        button.setFocusPainted(false);
+        button.setBorder(new EmptyBorder(12, 24, 12, 24)); // Increased padding
+        button.setCursor(new Cursor(Cursor.HAND_CURSOR));
+        button.addActionListener(this);
+        return button;
     }
 
     // Action listener for button events
