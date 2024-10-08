@@ -13,7 +13,7 @@ class MainMenu extends JFrame implements ActionListener {
     // Define colors for dark theme
     private Color bgColor = new Color(30, 30, 30);
     private Color textColor = new Color(230, 230, 230);
-    private Color accentColor = new Color(0, 150, 136);
+    private Color accentColor = new Color(0, 107, 255);
 
     MainMenu() {
         // Set up the frame

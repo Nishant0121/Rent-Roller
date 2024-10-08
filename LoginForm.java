@@ -14,7 +14,7 @@ class LoginForm extends JFrame implements ActionListener {
     // Define colors for dark theme
     private Color bgColor = new Color(30, 30, 30);
     private Color textColor = new Color(230, 230, 230);
-    private Color accentColor = new Color(0, 150, 136);
+    private Color accentColor = new Color(0, 107, 255);
 
     LoginForm() {
         // Set up the frame
@@ -103,9 +103,13 @@ class LoginForm extends JFrame implements ActionListener {
             showErrorMessage("Please enter both email and password.");
         } else {
             // Add your authentication logic here
-            showSuccessMessage("Login Successful!");
-            dispose();
-            new MainMenu();
+            if (email.equals("nishant0121@gmail.com") && password.equals("1234qwer")) {
+                showSuccessMessage("Login Successful!");
+                dispose();
+                new MainMenu();
+            } else {
+                showErrorMessage("Invalid email or password.");
+            }
         }
     }
 

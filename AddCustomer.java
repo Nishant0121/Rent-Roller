@@ -15,7 +15,7 @@ public class AddCustomer extends JFrame implements ActionListener {
 
     private Color bgColor = new Color(30, 30, 30);
     private Color textColor = new Color(230, 230, 230);
-    private Color accentColor = new Color(0, 150, 136);
+    private Color accentColor = new Color(0, 107, 255);
     private Color inputColor = new Color(0, 0, 0);
 
     JButton addButton = new JButton("Add Costumer");
