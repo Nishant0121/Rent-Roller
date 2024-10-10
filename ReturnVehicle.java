@@ -155,7 +155,7 @@ public class ReturnVehicle extends JFrame implements ActionListener {
         add(lblTotalAmount);
 
         txtTotalAmount.setBounds(150, 230, 150, 30);
-        txtTotalAmount.setForeground(textColor);
+        txtTotalAmount.setForeground(inputColor);
         add(txtTotalAmount);
 
         // Buttons
