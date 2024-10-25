@@ -7,7 +7,7 @@ import javax.swing.table.DefaultTableModel;
 public class AddCustomer extends JFrame implements ActionListener {
 
     // Declare instance variables for the input fields and table
-    private JTextField nameField, mobileField, dlField, locationField, customer_idField;
+    private JTextField nameField, mobileField, dlField, locationField, customer_idField, emailField;
     private JComboBox<String> idProofDropdown;
     private JTable vehicleTable;
     private DefaultTableModel tableModel;
@@ -25,7 +25,7 @@ public class AddCustomer extends JFrame implements ActionListener {
         // Set up the main frame
         setTitle("Rent Roller Vehicle Rental Service");
         setDefaultCloseOperation(EXIT_ON_CLOSE);
-        setSize(1000, 500);
+        setSize(1000, 600);
         setLocationRelativeTo(null);
         getContentPane().setBackground(bgColor);
         // Create the main panel and set the layout to GridBagLayout
@@ -117,10 +117,24 @@ public class AddCustomer extends JFrame implements ActionListener {
         locationField.setForeground(inputColor);
         panel.add(locationField, constraints);
 
+        // Email Label and TextField
+        JLabel emailLabel = new JLabel("Email");
+        constraints.gridx = 0;
+        constraints.gridy = 6;
+        emailLabel.setForeground(textColor);
+        panel.add(emailLabel, constraints);
+
+        emailField = new JTextField(20);
+        emailField.setPreferredSize(new Dimension(200, 30));
+        constraints.gridx = 1;
+        emailField.setBackground(accentColor);
+        emailField.setForeground(inputColor);
+        panel.add(emailField, constraints);
+
         // ID Proof Label and Dropdown
         JLabel idProofLabel = new JLabel("Id Proof");
         constraints.gridx = 0;
-        constraints.gridy = 6;
+        constraints.gridy = 7;
         idProofLabel.setForeground(textColor);
         panel.add(idProofLabel, constraints);
 
@@ -135,7 +149,7 @@ public class AddCustomer extends JFrame implements ActionListener {
         // ID Proof Number Label and TextField
         JLabel customer_idLabel = new JLabel("Id Proof Number");
         constraints.gridx = 0;
-        constraints.gridy = 7;
+        constraints.gridy = 8;
 
         customer_idLabel.setForeground(textColor);
         panel.add(customer_idLabel, constraints);
@@ -153,7 +167,7 @@ public class AddCustomer extends JFrame implements ActionListener {
         cancelButton.setBackground(accentColor);
         cancelButton.setForeground(inputColor);
         constraints.gridx = 0;
-        constraints.gridy = 8;
+        constraints.gridy = 9;
         constraints.gridwidth = 1;
         cancelButton.setFont(new Font("Arial", Font.BOLD, 16));
         cancelButton.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
@@ -197,11 +211,11 @@ public class AddCustomer extends JFrame implements ActionListener {
         setVisible(true);
 
         // Load vehicle data
-        loadVehicleData();
+        loadCustomerData();
     }
 
     // Load vehicle data from the database into the table
-    private void loadVehicleData() {
+    private void loadCustomerData() {
         try {
             Connection con = DriverManager.getConnection("jdbc:mysql://127.0.0.1:3306/rentroller", "root", "1234Qwer");
             String query = "SELECT * FROM customer";
@@ -238,6 +252,7 @@ public class AddCustomer extends JFrame implements ActionListener {
         String mobileNumber = mobileField.getText();
         String dlNo = dlField.getText();
         String location = locationField.getText();
+        String email = emailField.getText();
         String idProof = (String) idProofDropdown.getSelectedItem();
         String customer_id = customer_idField.getText();
 
@@ -247,14 +262,13 @@ public class AddCustomer extends JFrame implements ActionListener {
                 Connection con = DriverManager.getConnection("jdbc:mysql://127.0.0.1:3306/rentroller", "root",
                         "1234Qwer");
                 String query = "insert into customer values ('" + customerName + "','" + mobileNumber + "','" + dlNo
-                        + "','"
-                        + location + "','" + idProof + "','" + customer_id + "')";
+                        + "','" + location + "','" + idProof + "','" + customer_id + "','" + email + "')";
                 System.out.println("Query: " + query);
                 Statement st = con.createStatement();
                 st.executeUpdate(query);
                 JOptionPane.showMessageDialog(this, "Customer added successfully");
 
-                loadVehicleData();
+                loadCustomerData();
             } catch (Exception exception) {
                 exception.printStackTrace();
                 JOptionPane.showMessageDialog(this, "Error: " + exception.getMessage());

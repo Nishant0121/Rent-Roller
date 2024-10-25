@@ -1,6 +1,11 @@
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.BufferedReader;
+import java.io.DataOutputStream;
+import java.io.InputStreamReader;
+import java.net.HttpURLConnection;
+import java.net.URL;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
@@ -26,6 +31,8 @@ public class RentVehicleForm extends JFrame implements ActionListener {
     private Color textColor = new Color(230, 230, 230);
     private Color accentColor = new Color(0, 107, 255);
     private Color inputColor = new Color(0, 0, 0);
+
+    private String message = "";
 
     RentVehicleForm() {
         // Set up the frame
@@ -56,6 +63,7 @@ public class RentVehicleForm extends JFrame implements ActionListener {
         JLabel lblVehicleId = new JLabel("Vehicle Id");
         lblVehicleId.setBounds(50, 70, 100, 30);
         lblVehicleId.setForeground(textColor);
+        // lblVehicleId.setFont(new Font("Arial", Font.BOLD, 16));
         contentPanel.add(lblVehicleId);
 
         txtVehicleId = new JTextField();
@@ -65,6 +73,8 @@ public class RentVehicleForm extends JFrame implements ActionListener {
 
         JLabel lblCustomerId = new JLabel("Customer Id");
         lblCustomerId.setBounds(50, 110, 100, 30);
+        lblVehicleId.setFont(new Font("Arial", Font.BOLD, 16));
+
         lblCustomerId.setForeground(textColor);
         contentPanel.add(lblCustomerId);
 
@@ -75,6 +85,7 @@ public class RentVehicleForm extends JFrame implements ActionListener {
 
         JLabel lblCustomerName = new JLabel("Customer Name");
         lblCustomerName.setBounds(50, 150, 100, 30);
+        lblVehicleId.setFont(new Font("Arial", Font.BOLD, 16));
         lblCustomerName.setForeground(textColor);
         contentPanel.add(lblCustomerName);
 
@@ -85,6 +96,7 @@ public class RentVehicleForm extends JFrame implements ActionListener {
 
         JLabel lblRentPerDay = new JLabel("Rent (Per Day)");
         lblRentPerDay.setBounds(50, 190, 100, 30);
+        lblVehicleId.setFont(new Font("Arial", Font.BOLD, 16));
         lblRentPerDay.setForeground(textColor);
         contentPanel.add(lblRentPerDay);
 
@@ -96,6 +108,7 @@ public class RentVehicleForm extends JFrame implements ActionListener {
         // New Location Field
         JLabel lblLocation = new JLabel("Location");
         lblLocation.setBounds(50, 230, 100, 30);
+        lblVehicleId.setFont(new Font("Arial", Font.BOLD, 16));
         lblLocation.setForeground(textColor);
         contentPanel.add(lblLocation);
 
@@ -106,6 +119,7 @@ public class RentVehicleForm extends JFrame implements ActionListener {
 
         JLabel lblDateFrom = new JLabel("Date (From)");
         lblDateFrom.setBounds(330, 70, 100, 30);
+        lblVehicleId.setFont(new Font("Arial", Font.BOLD, 16));
         lblDateFrom.setForeground(textColor);
         contentPanel.add(lblDateFrom);
 
@@ -119,6 +133,7 @@ public class RentVehicleForm extends JFrame implements ActionListener {
 
         JLabel lblDateTo = new JLabel("Date (To)");
         lblDateTo.setBounds(330, 110, 100, 30);
+        lblVehicleId.setFont(new Font("Arial", Font.BOLD, 16));
         lblDateTo.setForeground(textColor);
         contentPanel.add(lblDateTo);
 
@@ -132,6 +147,7 @@ public class RentVehicleForm extends JFrame implements ActionListener {
 
         JLabel lblDepositType = new JLabel("Deposit");
         lblDepositType.setBounds(330, 150, 100, 30);
+        lblVehicleId.setFont(new Font("Arial", Font.BOLD, 16));
         lblDepositType.setForeground(textColor);
         contentPanel.add(lblDepositType);
 
@@ -142,6 +158,7 @@ public class RentVehicleForm extends JFrame implements ActionListener {
 
         JLabel lblDepositAmount = new JLabel("Deposit Amount");
         lblDepositAmount.setBounds(330, 190, 100, 30);
+        lblVehicleId.setFont(new Font("Arial", Font.BOLD, 16));
         lblDepositAmount.setForeground(textColor);
         contentPanel.add(lblDepositAmount);
 
@@ -184,6 +201,7 @@ public class RentVehicleForm extends JFrame implements ActionListener {
         setVisible(true);
     }
 
+    @SuppressWarnings("deprecation")
     @Override
     public void actionPerformed(ActionEvent e) {
         if (e.getSource() == btnFind) {
@@ -192,6 +210,7 @@ public class RentVehicleForm extends JFrame implements ActionListener {
 
             // Fetch data from the database
             String customerName = findCustomerName(customerId);
+
             String rentPerDay = findRentPerDay(vehicleId);
             String depositAmount = findDepositAmount(vehicleId);
 
@@ -210,9 +229,10 @@ public class RentVehicleForm extends JFrame implements ActionListener {
             SimpleDateFormat sdf = new SimpleDateFormat("dd MMM yyyy");
             String dateFromstr = sdf.format((Date) dateFrom.getValue());
             String dateToStr = sdf.format((Date) dateTo.getValue());
+            String email = findEmail(customerId);
 
             // Print the form data
-            String message = String.format(
+            message = String.format(
                     "Vehicle ID: %s\nCustomer ID: %s\nCustomer Name: %s\nRent Per Day: %s\n" +
                             "Deposit Amount: %s\nDeposit Type: %s\nLocation: %s\nDate From: %s\nDate To: %s",
                     vehicleId, customerId, customerName, rentPerDay, depositAmount, depositType, location, dateFromstr,
@@ -236,6 +256,37 @@ public class RentVehicleForm extends JFrame implements ActionListener {
                 ex.printStackTrace();
             }
             JOptionPane.showMessageDialog(this, message, "Rental Details", JOptionPane.INFORMATION_MESSAGE);
+
+            try {
+                // Escape special characters in the message
+                String escapedMessage = message.replace("\n", "\\n").replace("\"", "\\\"");
+
+                String body = String.format("{\"to\": \"%s\", \"message\": \"%s\"}", email,
+                        escapedMessage);
+
+                URL url = new URL("http://localhost:5000/api/send-email");
+                HttpURLConnection conn = (HttpURLConnection) url.openConnection();
+                conn.setRequestMethod("POST");
+                conn.setDoOutput(true);
+                conn.setRequestProperty("Content-Type", "application/json");
+                conn.setRequestProperty("User-Agent", "Mozilla/5.0");
+
+                try (DataOutputStream dos = new DataOutputStream(conn.getOutputStream())) {
+                    dos.writeBytes(body);
+                }
+
+                try (BufferedReader bf = new BufferedReader(new InputStreamReader(conn.getInputStream()))) {
+                    String line;
+                    while ((line = bf.readLine()) != null) {
+                        System.out.println(line);
+                    }
+                }
+            } catch (Exception ex) {
+                ex.printStackTrace();
+                JOptionPane.showMessageDialog(this, "Error sending Mail: " + ex.getMessage(),
+                        "Error",
+                        JOptionPane.ERROR_MESSAGE);
+            }
         } else if (e.getSource() == btnCancel) {
             dispose();
             new MainMenu();
@@ -251,11 +302,29 @@ public class RentVehicleForm extends JFrame implements ActionListener {
             ResultSet rs = pstmt.executeQuery();
             if (rs.next()) {
                 customerName = rs.getString("customerName");
+
             }
         } catch (Exception ex) {
             ex.printStackTrace();
         }
         return customerName;
+    }
+
+    private String findEmail(String customerId) {
+        String email = "Not Found";
+        try (Connection conn = DriverManager.getConnection(DB_URL, USER, PASS);
+                PreparedStatement pstmt = conn
+                        .prepareStatement("SELECT email FROM customer WHERE customer_id = ?")) {
+            pstmt.setString(1, customerId);
+            ResultSet rs = pstmt.executeQuery();
+            if (rs.next()) {
+                email = rs.getString("email");
+
+            }
+        } catch (Exception ex) {
+            ex.printStackTrace();
+        }
+        return email;
     }
 
     private String findRentPerDay(String vehicleId) {

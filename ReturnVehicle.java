@@ -1,6 +1,11 @@
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.BufferedReader;
+import java.io.DataOutputStream;
+import java.io.InputStreamReader;
+import java.net.HttpURLConnection;
+import java.net.URL;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
@@ -162,18 +167,21 @@ public class ReturnVehicle extends JFrame implements ActionListener {
         btnFind = new JButton("Find Vehicle");
         btnFind.setBounds(370, 320, 120, 30);
         btnFind.setBackground(accentColor); // Light cyan
+        btnFind.setForeground(textColor);
         btnFind.addActionListener(this);
         add(btnFind);
 
         btnReturn = new JButton("Return");
         btnReturn.setBounds(90, 320, 100, 30);
         btnReturn.setBackground(accentColor); // Light cyan
+        btnReturn.setForeground(textColor);
         btnReturn.addActionListener(this);
         add(btnReturn);
 
         btnCancel = new JButton("Cancel");
         btnCancel.setBounds(230, 320, 100, 30);
         btnCancel.setBackground(accentColor); // Light cyan
+        btnCancel.setForeground(textColor);
         btnCancel.addActionListener(this);
         add(btnCancel);
 
@@ -181,6 +189,7 @@ public class ReturnVehicle extends JFrame implements ActionListener {
         btnCalculate = new JButton("Calculate");
         btnCalculate.setBounds(510, 320, 100, 30);
         btnCalculate.setBackground(accentColor); // Light cyan
+        btnCalculate.setForeground(textColor);
         btnCalculate.addActionListener(this);
         add(btnCalculate);
 
@@ -226,6 +235,7 @@ public class ReturnVehicle extends JFrame implements ActionListener {
         }
     }
 
+    @SuppressWarnings("deprecation")
     @Override
     public void actionPerformed(ActionEvent e) {
         if (e.getSource() == btnFind) {
@@ -278,34 +288,8 @@ public class ReturnVehicle extends JFrame implements ActionListener {
             Date rentDate = (Date) dateRent.getValue();
             Date expectedReturnDate = (Date) dateReturn.getValue();
             Date todayDate = new Date(); // Get today's date
+            String email = findEmail(customerId);
 
-            // // Calculate delay in return date
-            // long differenceInMillis = todayDate.getTime() - expectedReturnDate.getTime();
-            // long delayDays = differenceInMillis / (1000 * 60 * 60 * 24); // Convert
-            // milliseconds to days
-
-            // // Calculate fine based on delay
-            // int fine = (delayDays > 0) ? (int) (delayDays * FINE_RATE_PER_DAY) : 0;
-            // txtFine.setText(String.valueOf(fine));
-
-            // // Get damage cost
-            // int damageCost = Integer.parseInt(txtDamage.getText());
-
-            // // Calculate total amount (Total Rent + Fine + Damage Cost)
-            // int totalAmount = Integer.parseInt(totalRent) + fine + damageCost;
-            // txtTotalAmount.setText(String.valueOf(totalAmount));
-
-            // // Update the message to include damage cost
-            // String message = String.format(
-            // "Vehicle ID: %s\nCustomer ID: %s\nCustomer Name: %s\nRent Date: %s\nReturn
-            // Date: %s\n" +
-            // "Total Rent: %s\nFine: %s\nDamage Cost: %s\nMode of Payment: %s\nTotal
-            // Amount: %d",
-            // vehicleId, customerId, customerName, rentDateStr,
-            // sdf.format(expectedReturnDate), totalRent, fine,
-            // damageCost, mode_of_payment, totalAmount);
-
-            // Update the database to set the return date and other details
             try {
                 Connection conn = DriverManager.getConnection(DB_URL, USER, PASS);
                 PreparedStatement pstmt2 = conn.prepareStatement(
@@ -318,20 +302,70 @@ public class ReturnVehicle extends JFrame implements ActionListener {
                 pstmt2.setString(6, customerName);
                 pstmt2.executeUpdate();
 
-                PreparedStatement pstmt3 = conn.prepareStatement(
-                        "DELETE FROM rent WHERE vehicle_id = ?");
-                pstmt3.setString(1, vehicleId);
-                pstmt3.executeUpdate();
-
                 JOptionPane.showMessageDialog(this, "Vehicle returned successfully", "Success",
                         JOptionPane.INFORMATION_MESSAGE);
             } catch (Exception ex) {
                 ex.printStackTrace();
             }
+            try {
+                Connection conn = DriverManager.getConnection(DB_URL, USER, PASS);
+                String body = String.format(
+                        "{\"to\": \"%s\", \"totalAmount\": \"%s\", \"customerName\": \"%s\", \"vehicleId\": \"%s\", \"rentDate\": \"%s\", \"returnDate\": \"%s\", \"mode_of_payment\": \"%s\", \"fine\": \"%s\", \"damageCost\": \"%s\", \"customerId\": \"%s\", \"email\": \"%s\"  }",
+                        email, txtTotalAmount.getText(), customerName, vehicleId, rentDateStr,
+                        sdf.format(expectedReturnDate), mode_of_payment, txtFine.getText(), txtDamage.getText(),
+                        customerId, email);
+                System.out.println(body);
+
+                URL url = new URL("http://localhost:5000/api/send-email/bill");
+                HttpURLConnection con = (HttpURLConnection) url.openConnection();
+                con.setRequestMethod("POST");
+                con.setDoOutput(true);
+                con.setRequestProperty("Content-Type", "application/json");
+                con.setRequestProperty("User-Agent", "Mozilla/5.0");
+
+                try (DataOutputStream dos = new DataOutputStream(con.getOutputStream())) {
+                    dos.writeBytes(body);
+                }
+
+                try (BufferedReader bf = new BufferedReader(new InputStreamReader(con.getInputStream()))) {
+                    String line;
+                    while ((line = bf.readLine()) != null) {
+                        System.out.println(line);
+                    }
+                }
+
+                PreparedStatement pstmt3 = conn.prepareStatement(
+                        "DELETE FROM rent WHERE vehicle_id = ?");
+                pstmt3.setString(1, vehicleId);
+                pstmt3.executeUpdate();
+
+            } catch (Exception ex) {
+                ex.printStackTrace();
+                JOptionPane.showMessageDialog(this, "Error sending SMS: " + ex.getMessage(),
+                        "Error",
+                        JOptionPane.ERROR_MESSAGE);
+            }
         } else if (e.getSource() == btnCancel) {
             dispose(); // Close the current form
             new MainMenu(); // Assuming you have a MainMenu class
         }
+    }
+
+    private String findEmail(String customerId) {
+        String email = "Not Found";
+        try (Connection conn = DriverManager.getConnection(DB_URL, USER, PASS);
+                PreparedStatement pstmt = conn
+                        .prepareStatement("SELECT email FROM customer WHERE customer_id = ?")) {
+            pstmt.setString(1, customerId);
+            ResultSet rs = pstmt.executeQuery();
+            if (rs.next()) {
+                email = rs.getString("email");
+
+            }
+        } catch (Exception ex) {
+            ex.printStackTrace();
+        }
+        return email;
     }
 
     public static void main(String[] args) {

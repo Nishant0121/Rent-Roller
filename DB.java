@@ -1,24 +1,33 @@
 import java.sql.*;
+import java.net.*;
+import java.io.*;
 
 public class DB {
-    static final String URL = "jdbc:mysql://127.0.0.1:3306/rentroller";
-    static final String USER = "root";
-    static final String PASSWORD = "1234Qwer";
 
+    @SuppressWarnings("deprecation")
     public static void main(String[] args) {
 
         try {
-            Connection conn = DriverManager.getConnection(URL, USER, PASSWORD);
-            System.out.println("Connected to the database");
-            Statement stmt = conn.createStatement();
-            ResultSet rs = stmt.executeQuery("SELECT * FROM vehicles;");
-            while (rs.next()) {
-                String regno = rs.getString("regno");
-                String brand = rs.getString("brand");
-                System.out.println(regno + " " + brand);
+            String body = "{\"phoneNumber\": \"+919511692910\", \"message\": \"Hello\"}";
+            URL url = new URL("http://localhost:5000/api/send-sms");
+            HttpURLConnection conn = (HttpURLConnection) url.openConnection();
+            conn.setRequestMethod("POST");
+            conn.setDoOutput(true);
+            conn.setRequestProperty("Content-Type", "application/json");
+            conn.setRequestProperty("User-Agent", "Mozilla/5.0");
+
+            try (DataOutputStream dos = new DataOutputStream(conn.getOutputStream())) {
+                dos.writeBytes(body);
+            }
+
+            try (BufferedReader bf = new BufferedReader(new InputStreamReader(conn.getInputStream()))) {
+                String line;
+                while ((line = bf.readLine()) != null) {
+                    System.out.println(line);
+                }
             }
         } catch (Exception e) {
-            throw new RuntimeException("Error connecting to the database", e);
+            throw new RuntimeException("Error connecting to the API", e);
         }
 
     }

@@ -71,7 +71,7 @@ public class AllVehicles extends JFrame implements ActionListener {
         formConstraints.gridy = 3;
         formPanel.add(brandLabel, formConstraints);
 
-        String[] vehicleBrands = { "Maruti", "Toyota", "Honda", "Ford" };
+        String[] vehicleBrands = { "Maruti", "Toyota", "Yamaha", "Kawasaki", "Honda", "Ford" };
         brandDropdown = new JComboBox<>(vehicleBrands);
         formConstraints.gridx = 1;
         brandDropdown.setForeground(inputColor);
@@ -172,8 +172,7 @@ public class AllVehicles extends JFrame implements ActionListener {
                     + "WHERE r.vehicle_id IS NULL "
                     + "AND v.type = '" + selectedVehicleType + "' "
                     + "AND v.no_of_seats = '" + selectedSeats + "' "
-                    + "AND v.brand = '" + selectedBrand + "' "
-                    + "AND v.color = '" + selectedColor + "';";
+                    + "AND v.brand = '" + selectedBrand + "';";
 
             try {
                 Connection con = DriverManager.getConnection("jdbc:mysql://127.0.0.1:3306/rentroller", "root",
