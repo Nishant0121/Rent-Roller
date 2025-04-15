@@ -339,6 +339,9 @@ public class ReturnVehicle extends JFrame implements ActionListener {
                 pstmt3.setString(1, vehicleId);
                 pstmt3.executeUpdate();
 
+                dispose();
+                new MainMenu();
+
             } catch (Exception ex) {
                 ex.printStackTrace();
                 JOptionPane.showMessageDialog(this, "Error sending SMS: " + ex.getMessage(),

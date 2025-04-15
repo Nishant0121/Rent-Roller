@@ -281,6 +281,9 @@ public class RentVehicleForm extends JFrame implements ActionListener {
                         System.out.println(line);
                     }
                 }
+                dispose();
+                new MainMenu();
+
             } catch (Exception ex) {
                 ex.printStackTrace();
                 JOptionPane.showMessageDialog(this, "Error sending Mail: " + ex.getMessage(),
